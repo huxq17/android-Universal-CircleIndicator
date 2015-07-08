@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:indicator="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.andwidget.pageddragdropgrid.PagedDragDropGrid
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:scrollbars="none" />
+
+    <com.andwidget.xcircleindicator.XCircleIndicator
+        android:id="@+id/xCircleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/indicator_bottom_margin"
+        indicator:circleInterval="@dimen/circleInterval"
+        indicator:fillColor="#F96A0E"
+        indicator:radius="@dimen/radius"
+        indicator:strokeColor="#cecece" />
+
+</RelativeLayout>

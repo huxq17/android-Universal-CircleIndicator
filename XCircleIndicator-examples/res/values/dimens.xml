@@ -1,0 +1,10 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="circleInterval">15dp</dimen>
+    <dimen name="radius">4dp</dimen>
+    <dimen name="radius_sw360">7dp</dimen>
+    <dimen name="indicator_bottom_margin">10dp</dimen>
+    <dimen name="indicator_bottom_margin_sw360">15dp</dimen>
+
+</resources>

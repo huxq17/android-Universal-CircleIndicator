@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="radius" type="dimen">@dimen/radius_sw360</item>
+    <item name="indicator_bottom_margin" type="dimen">@dimen/indicator_bottom_margin_sw360</item>
+
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="XCircleIndicator">
+        <attr name="fillColor" format="color" />
+        <attr name="strokeColor" format="color" />
+        <attr name="radius" format="integer" />
+        <attr name="circleInterval" format="dimension" />
+    </declare-styleable>
+</resources>
