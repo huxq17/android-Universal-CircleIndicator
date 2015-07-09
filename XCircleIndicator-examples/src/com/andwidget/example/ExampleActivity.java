@@ -64,14 +64,15 @@ public class ExampleActivity extends Activity implements OnClickListener {
 		gridview.setOnPageChangedListener(new OnPageChangedListener() {            
             @Override
             public void onPageChanged(PagedDragDropGrid sender, int newPageNumber) {
+            	//当页面切换的时候调用此方法改变被选中的圆点
             	indicator.setCurrentPage(newPageNumber);
             }
         });
-		
+		//设置总共的页数
 		indicator.initData(adapter.pageCount(), 0);
+		//设置当前的页面
 		indicator.setCurrentPage(0);
-		
-	}	
+	}
 	
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {

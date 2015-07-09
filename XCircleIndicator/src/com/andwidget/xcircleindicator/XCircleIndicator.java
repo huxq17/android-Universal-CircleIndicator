@@ -22,6 +22,12 @@ import android.view.View;
  * <ul>
  * radius: Define the circle radius (default to 4)
  * </ul>
+ * <ul>
+ * circleInterval: Define the circle interval between circles(default to 4)
+ * </ul>
+ * <ul>
+ * pageTotalCount: Define the page total count
+ * </ul>
  */
 public class XCircleIndicator extends View {
 	private int radius = 4;
@@ -29,7 +35,7 @@ public class XCircleIndicator extends View {
 	private final Paint mPaintFill = new Paint(Paint.ANTI_ALIAS_FLAG);
 	private int currentScroll = 0;
 	private int flowWidth = 0;
-	private int count = 1;
+	private int pageTotalCount = 1;
 	private int currentPage = 0;
 	private int circleInterval = radius;
 
@@ -52,15 +58,16 @@ public class XCircleIndicator extends View {
 
 		try {
 			// Retrieve the colors to be used for this view and apply them.
-			int fillColor = a.getColor(
-					R.styleable.XCircleIndicator_fillColor, 0xFFFFFFFF);
+			int fillColor = a.getColor(R.styleable.XCircleIndicator_fillColor,
+					0xFFFFFFFF);
 			int strokeColor = a.getColor(
 					R.styleable.XCircleIndicator_strokeColor, 0xFFFFFFFF);
 			// Retrieve the radius
-			radius = (int) a.getDimension(R.styleable.XCircleIndicator_radius, radius);
+			radius = (int) a.getDimension(R.styleable.XCircleIndicator_radius,
+					radius);
 			circleInterval = (int) a.getDimension(
 					R.styleable.XCircleIndicator_circleInterval, radius);
-			
+
 			initColors(fillColor, strokeColor);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,15 +77,42 @@ public class XCircleIndicator extends View {
 
 	}
 
+	/**
+	 * init page count and some params that maybe use in the future
+	 * 
+	 * @param count
+	 *            the total page count
+	 * @param contentWidth
+	 *            pass any value and we are not care now
+	 */
 	public void initData(int count, int contentWidth) {
-		this.count = count;
+		this.pageTotalCount = count;
 		this.flowWidth = contentWidth;
 		invalidate();
 	}
+
+	/**
+	 * set the current selected circleIndicator
+	 * 
+	 * @param currentPage
+	 *            current page number,start with zero
+	 */
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 		invalidate();
 	}
+
+	/**
+	 * Sets the circle interval
+	 * 
+	 * @param circleInterval
+	 *            unit px
+	 */
+	public void setPageTotalCount(int pageTotalCount) {
+		this.pageTotalCount = pageTotalCount;
+		invalidate();
+	}
+
 	private void initColors(int fillColor, int strokeColor) {
 		mPaintStroke.setStyle(Style.STROKE);
 		mPaintStroke.setColor(strokeColor);
@@ -86,22 +120,61 @@ public class XCircleIndicator extends View {
 		mPaintFill.setColor(fillColor);
 	}
 
-	@Override
-	protected void onLayout(boolean changed, int left, int top, int right,
-			int bottom) {
-		super.onLayout(changed, left, top, right, bottom);
+	/**
+	 * Sets the fill color
+	 * 
+	 * @param color
+	 *            ARGB value for the text
+	 */
+	public void setFillColor(int color) {
+		mPaintFill.setColor(color);
+		invalidate();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Sets the stroke color
 	 * 
-	 * @see android.view.View#onDraw(android.graphics.Canvas)
+	 * @param color
+	 *            ARGB value for the text
 	 */
+	public void setStrokeColor(int color) {
+		mPaintStroke.setColor(color);
+		invalidate();
+	}
+
+	/**
+	 * Sets the circle interval
+	 * 
+	 * @param circleInterval
+	 *            unit px
+	 */
+	public void setCircleInterval(int circleInterval) {
+		this.circleInterval = circleInterval;
+		invalidate();
+	}
+
+	/**
+	 * Sets the circle radius
+	 * 
+	 * @param circleInterval
+	 *            unit px
+	 */
+	public void setRadius(int radius) {
+		this.radius = radius;
+		invalidate();
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		setMeasuredDimension(measureWidth(widthMeasureSpec),
+				measureHeight(heightMeasureSpec));
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		// Draw stroked circles
-		for (int iLoop = 0; iLoop < count; iLoop++) {
+		for (int iLoop = 0; iLoop < pageTotalCount; iLoop++) {
 			canvas.drawCircle(getPaddingLeft() + radius
 					+ (iLoop * (2 * radius + circleInterval)), getPaddingTop()
 					+ radius, radius, mPaintStroke);
@@ -134,7 +207,8 @@ public class XCircleIndicator extends View {
 			result = specSize;
 		} else { // Calculate the width according the views count
 			result = getPaddingLeft() + getPaddingRight()
-					+ (count * 2 * radius) + (count - 1) * circleInterval;
+					+ (pageTotalCount * 2 * radius) + (pageTotalCount - 1)
+					* circleInterval;
 			// Respect AT_MOST value if that was what is called for by
 			// measureSpec
 			if (specMode == MeasureSpec.AT_MOST) {
@@ -142,17 +216,6 @@ public class XCircleIndicator extends View {
 			}
 		}
 		return result;
-	}
-
-	public void onScrolled(int h, int v, int oldh, int oldv) {
-		currentScroll = h;
-		invalidate();
-	}
-
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		setMeasuredDimension(measureWidth(widthMeasureSpec),
-				measureHeight(heightMeasureSpec));
 	}
 
 	/**
@@ -183,26 +246,8 @@ public class XCircleIndicator extends View {
 		return result;
 	}
 
-	/**
-	 * Sets the fill color
-	 * 
-	 * @param color
-	 *            ARGB value for the text
-	 */
-	public void setFillColor(int color) {
-		mPaintFill.setColor(color);
+	public void onScrolled(int h, int v, int oldh, int oldv) {
+		currentScroll = h;
 		invalidate();
 	}
-
-	/**
-	 * Sets the stroke color
-	 * 
-	 * @param color
-	 *            ARGB value for the text
-	 */
-	public void setStrokeColor(int color) {
-		mPaintStroke.setColor(color);
-		invalidate();
-	}
-
 }
